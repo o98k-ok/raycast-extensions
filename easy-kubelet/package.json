@@ -1,0 +1,66 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "easy-kubelet",
+  "title": "Easy Kubelet",
+  "description": "Efficiently monitor and manage Kubernetes pods and their resource usage",
+  "icon": "extension_icon.png",
+  "author": "hgg_end",
+  "categories": [
+    "Developer Tools",
+    "System"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "easy-kubelet",
+      "title": "List K8s Pods",
+      "description": "Monitor pods status and resource usage",
+      "mode": "view",
+      "keywords": [
+        "kubernetes",
+        "k8s",
+        "pods",
+        "kubectl",
+        "namespace"
+      ]
+    }
+  ],
+  "preferences": [
+    {
+      "name": "namespace",
+      "title": "Kubernetes Namespace",
+      "description": "The namespace to use for kubectl commands",
+      "type": "textfield",
+      "required": true,
+      "default": "MUST_SET"
+    },
+    {
+      "name": "kubectlPath",
+      "title": "kubectl 路径",
+      "description": "kubectl 命令的完整路径，留空则使用系统默认路径",
+      "type": "textfield",
+      "required": true,
+      "default": "MUST_SET"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.95.0",
+    "@raycast/utils": "^1.17.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.0.4",
+    "@types/node": "22.13.10",
+    "@types/react": "19.0.10",
+    "eslint": "^9.22.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "prepublishOnly": "echo \"\\n\\nIt seems like you are trying to publish the Raycast extension to npm.\\n\\nIf you did intend to publish it to npm, remove the \\`prepublishOnly\\` script and rerun \\`npm publish\\` again.\\nIf you wanted to publish it to the Raycast Store instead, use \\`npm run publish\\` instead.\\n\\n\" && exit 1",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
