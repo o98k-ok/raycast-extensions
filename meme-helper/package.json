@@ -31,6 +31,13 @@
       "description": "表情包下载的本地目录路径",
       "type": "directory",
       "required": false
+    },
+    {
+      "name": "proxy",
+      "title": "代理",
+      "description": "代理服务器地址，格式：http://127.0.0.1:8000",
+      "type": "textfield",
+      "required": false
     }
   ],
   "devDependencies": {

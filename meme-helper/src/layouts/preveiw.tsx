@@ -1,16 +1,17 @@
-import { Detail, ActionPanel, Action } from "@raycast/api";
+import { Detail, ActionPanel, Action, Icon } from "@raycast/api";
 import { Meme } from "../fetchers/define";
 import { processMeme } from "../process/process";
 
 interface PreviewProps {
     meme: Meme;
+    onGoBack: () => void;
 }
 
 /**
  * 表情包预览组件
  * 显示表情包的大图和详细信息
  */
-export function MemePreview({ meme }: PreviewProps) {
+export function MemePreview({ meme, onGoBack }: PreviewProps) {
     // 准备Markdown内容
     const previewUrl = meme.url.includes("?")
         ? `${meme.url}&raycast-width=300&raycast-height=300`
@@ -34,8 +35,9 @@ ${meme.title}
             }
             actions={
                 <ActionPanel>
-                    <Action title="复制到剪贴板" onAction={() => processMeme(meme)} />
-                    <Action.OpenInBrowser title="浏览器打开" url={meme.url} />
+                    <Action title="复制到剪贴板" icon={Icon.Clipboard} onAction={() => processMeme(meme)} />
+                    <Action.OpenInBrowser title="浏览器打开" icon={Icon.Globe} url={meme.url} />
+                    <Action title="返回列表" icon={Icon.ArrowLeft} onAction={onGoBack} shortcut={{ modifiers: ["cmd"], key: "[" }} />
                 </ActionPanel>
             }
         />

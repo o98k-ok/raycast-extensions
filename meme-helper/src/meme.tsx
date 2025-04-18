@@ -9,6 +9,11 @@ import { Meme } from "./fetchers/define";
 import { processMeme } from "./process/process";
 import { MemePreview } from "./layouts/preveiw";
 
+
+
+
+
+
 export default function Command() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
@@ -153,9 +158,15 @@ export default function Command() {
     setShowPreview(true);
   };
 
+  // 处理返回逻辑
+  const handleGoBack = () => {
+    setShowPreview(false);
+    setSelectedMeme(null);
+  };
+
   // 如果显示预览，渲染预览组件
   if (showPreview && selectedMeme) {
-    return <MemePreview meme={selectedMeme} />;
+    return <MemePreview meme={selectedMeme} onGoBack={handleGoBack} />;
   }
 
   return (

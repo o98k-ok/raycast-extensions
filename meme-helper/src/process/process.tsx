@@ -8,6 +8,7 @@ import crypto from "crypto";
 
 interface Preferences {
   downloadPath?: string;
+  proxy?: string;
 }
 
 /**
@@ -30,6 +31,11 @@ function getImageDirectory(): string {
   }
 
   return downloadDir;
+}
+
+export function getProxyConfig(): string {
+  const preferences = getPreferenceValues<Preferences>();
+  return preferences.proxy || "";
 }
 
 /**

@@ -1,5 +1,6 @@
 import * as cheerio from "cheerio";
 import { Meme } from "./define";
+import { getProxyConfig } from "../process/process";
 const platformQUDOUTU = "qudoutu";
 
 /**
@@ -37,7 +38,7 @@ export async function searchMemes(keyword: string, limit: number = 10): Promise<
             if (imgUrl) {
                 memes.push({
                     title: title,
-                    url: `http://127.0.0.1:8000?url=${encodeURIComponent(imgUrl)}&referer=${encodeURIComponent(searchUrl)}`,
+                    url: getProxyConfig() ? `${getProxyConfig()}?url=${encodeURIComponent(imgUrl)}&referer=${encodeURIComponent(searchUrl)}` : imgUrl,
                     platform: platformQUDOUTU,
                 });
             }
