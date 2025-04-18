@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { ActionPanel, Action, Grid, Icon, showToast, Toast } from "@raycast/api";
-import { searchMemes, getRecommendedMemes } from "./fetchers/pdan";
+import { searchMemes as searchPdanMemes, getRecommendedMemes } from "./fetchers/pdan";
+import { searchMemes as searchSougouMemes } from "./fetchers/sougou";
+import { fetchMemes as searchDoutupkMemes } from "./fetchers/doutupk";
+import { searchMemes as searchQudoutuMemes } from "./fetchers/qudoutu";
+import { searchMemes as searchFabiaoqingMemes } from "./fetchers/fabiaoqing";
 import { Meme } from "./fetchers/define";
 import { processMeme } from "./process/process";
 import { MemePreview } from "./layouts/preveiw";
 
 export default function Command() {
-  const [columns, setColumns] = useState(5);
   const [isLoading, setIsLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [allIcons, setAllIcons] = useState<Meme[]>([]);
@@ -45,12 +48,23 @@ export default function Command() {
         }
 
         // 执行搜索
-        let result;
+        let result: Meme[] = [];
         if (lastSearchText) {
-          result = await searchMemes(lastSearchText, 50);
+          const searchFuncs = [searchFabiaoqingMemes, searchQudoutuMemes, searchDoutupkMemes, searchPdanMemes, searchSougouMemes];
+          for (const searchFunc of searchFuncs) {
+            const onceResult = await searchFunc(lastSearchText, 50);
+            result = [...result, ...onceResult];
+            if (result.length > 50) {
+              break;
+            }
+          }
         } else {
           result = await getRecommendedMemes(50);
         }
+
+
+        // 随机打乱
+        result.sort(() => Math.random() - 0.5);
 
         // 确保组件仍然挂载且搜索文本未变化
         if (isMounted && lastSearchText === searchText) {
@@ -146,7 +160,7 @@ export default function Command() {
 
   return (
     <Grid
-      columns={columns}
+      columns={5}
       throttle={true}
       inset={Grid.Inset.Large}
       isLoading={isLoading}
@@ -158,19 +172,6 @@ export default function Command() {
           loadMore();
         }
       }}
-      searchBarAccessory={
-        <Grid.Dropdown
-          tooltip="展示布局"
-          storeValue
-          onChange={(newValue) => {
-            setColumns(parseInt(newValue));
-          }}
-        >
-          <Grid.Dropdown.Item title="大" value={"3"} />
-          <Grid.Dropdown.Item title="中" value={"5"} />
-          <Grid.Dropdown.Item title="小" value={"8"} />
-        </Grid.Dropdown>
-      }
     >
       {displayIcons.length === 0 && !isLoading ? (
         <Grid.Item

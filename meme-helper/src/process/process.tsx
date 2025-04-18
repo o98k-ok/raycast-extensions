@@ -4,6 +4,7 @@ import { join, parse, join as pathJoin } from "path";
 import fs from "fs";
 import { execFile } from "child_process";
 import { Meme } from "../fetchers/define";
+import crypto from "crypto";
 
 interface Preferences {
   downloadPath?: string;
@@ -37,13 +38,12 @@ function getImageDirectory(): string {
  * @returns 生成的文件名
  */
 function generateFileName(meme: Meme): string {
-  // 从URL获取原始文件扩展名
-  const urlParts = meme.url.split(".");
-  const extension = urlParts.length > 1 ? urlParts[urlParts.length - 1] : "jpg";
+  // 从URL中提取文件扩展名
+  const md5Hash = crypto.createHash('md5').update(meme.url).digest('hex');
 
   // 使用平台名称和时间戳创建文件名
   const timestamp = new Date().getTime();
-  return `${meme.platform}_${timestamp}.${extension}`;
+  return `${meme.platform}_${md5Hash}_${timestamp}`;
 }
 
 /**

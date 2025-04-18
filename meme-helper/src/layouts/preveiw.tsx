@@ -35,6 +35,7 @@ ${meme.title}
             actions={
                 <ActionPanel>
                     <Action title="复制到剪贴板" onAction={() => processMeme(meme)} />
+                    <Action.OpenInBrowser title="浏览器打开" url={meme.url} />
                 </ActionPanel>
             }
         />
