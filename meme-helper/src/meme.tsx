@@ -171,9 +171,9 @@ export default function Command() {
 
   return (
     <Grid
-      columns={5}
+      columns={6}
+      fit={Grid.Fit.Fill}
       throttle={true}
-      inset={Grid.Inset.Large}
       isLoading={isLoading}
       searchBarPlaceholder="搜索表情包..."
       onSearchTextChange={setSearchText}
